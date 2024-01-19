@@ -2,23 +2,19 @@
 const express = require('express');
 require('dotenv').config();
 const app = express();
+const api = require('./api');
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(api);
 
-// Import the pool from db.js
-const pool = require('./db');
+// error handling
+app.use(function(err, req, res, next){
 
-// Define routes here
-// Example route using the database pool
-// app.get('/data', async (req, res) => {
-//   try {
-//     const data = await pool.query('SELECT * FROM your_table');
-//     res.json(data.rows);
-//   } catch (err) {
-//     console.error(err.message);
-//   }
-// });
+  const message = err.raw?.message || err.message || err.sqlMessage || null;
+  return res.status(500).send({ message: message });
+
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
