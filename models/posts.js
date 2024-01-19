@@ -7,6 +7,7 @@ exports.create = async function(data){
     id: uuidv4(),
     title: data.title, 
     contents: data.contents,
+    timestamp: data.timestamp,
     categoryId: data.categoryId
   }
   
@@ -18,27 +19,33 @@ exports.create = async function(data){
     
     }
     
-    exports.get = async function(id){
+    exports.get = async function(){
     
         const data = await db('blog_post')
     
         .select('blog_post.id', 'blog_post.title', 'blog_post.contents', 'blog_post.timestamp', 'blog_post.categoryId')
     
-        .join('blog_category', 'blog_category.id', 'blog_post.category') 
-    
-        return id ? data[0] : null;
+        return data;
     
     }
 
-    exports.update = async function(id, data){
-      
-        return await db('blog_post').update(data).where({
-          
-          ...id && { id: id },
-          ...data && { data: data }
+    exports.getByCategoryId = async function(id){
+    
+      const data = await db('blog_post')
+  
+      .select('blog_post.id', 'blog_post.title', 'blog_post.contents', 'blog_post.timestamp', 'blog_post.categoryId')
+      .join('blog_category', 'blog_category.id', 'blog_post.categoryId') 
+      .where({ 'categoryId': id })
+  
+      return data;
+  
+  }
 
-        
-        });
+    exports.update = async function(id, data){
+
+      console.log('model updated data', data);
+      
+        return await db('blog_post').update(data).where({ id: id });
       }
     
     exports.delete = async function(id){
