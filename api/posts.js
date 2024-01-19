@@ -11,6 +11,10 @@ api.get('/api/posts', use(postController.get));
 
 api.get('/api/posts/:id', use(postController.getById));
 
-api.delete('/api/comment/:id', use(postController.delete));
+api.get('/api/posts/category/:id', use(postController.getByCategoryId));
+
+api.put('/api/posts/:id', use(postController.update));
+
+api.delete('/api/posts/:id', use(postController.delete));
 
 module.exports = api;
