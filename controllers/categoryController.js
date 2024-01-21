@@ -1,6 +1,6 @@
 const category = require('../models/category');
 
-exports.get = async function(req, res){
+exports.get = async function (req, res) {
 
     const data = req.body;
 
@@ -9,7 +9,7 @@ exports.get = async function(req, res){
     return res.status(200).send({ data: categoryData })
 }
 
-exports.getById = async function(req, res){
+exports.getById = async function (req, res) {
     const data = await category.getByCategory(req.params.id);
     return res.status(200).send({ data })
 }

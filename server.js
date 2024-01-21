@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(api);
 
 // error handling
-app.use(function(err, req, res, next){
+app.use(function (err, req, res, next) {
 
   const message = err.raw?.message || err.message || err.sqlMessage || null;
   return res.status(500).send({ message: message });
