@@ -12,13 +12,27 @@ exports.create = async function(req, res){
   }
 
   exports.get = async function(req, res){
-       const data = await posts.get(req.body.id);
+
+    const data = await posts.get(req.params.id);
+    return res.status(200).send({ data })
+}
+
+  exports.getById = async function(req, res){
+       const data = await posts.get(req.params.id);
        return res.status(200).send({ data })
   }
+
+  exports.getByCategoryId = async function(req, res){
+    const data = await posts.getByCategoryId(req.params.id);
+    return res.status(200).send({ data })
+}
+
 
   exports.update = async function(req, res){
 
     const data = req.body;
+
+    console.log('updated data', data);
 
     await posts.update(req.params.id, data)
     return res.status(200).send({ message: 'post updated', data })
